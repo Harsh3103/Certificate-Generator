@@ -91,7 +91,7 @@ const generatePDF = async (name, selectedCourse, selectedDate) => {
   const dataSchema = new mongoose.Schema({
     name: String,
     email: String,
-    phone: String,
+    course: String,
   });
 
   const Data = mongoose.model('Data', dataSchema);
@@ -116,7 +116,7 @@ const generatePDF = async (name, selectedCourse, selectedDate) => {
     const trimmed_selectedCourse = selectedCourse.trim();
   
     try {
-        const userFound = await Data.findOne({ name: name, email: email });
+        const userFound = await Data.findOne({ name: name, email: email ,course:trimmed_selectedCourse });
 
         if(userFound){
             const pdfBytes = await generatePDF(capitalized_name, trimmed_selectedCourse, selectedDate);
