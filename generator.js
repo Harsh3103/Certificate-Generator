@@ -114,31 +114,31 @@ const generatePDF = async (name, selectedCourse, selectedDate) => {
     const capitalized_name = capitalize(name.trim());
     const trimmed_email = email.trim();
     const trimmed_selectedCourse = selectedCourse.trim();
+  
     try {
-      const userFound = await Data.findOne({ name: name, email: email, course: trimmed_selectedCourse });
+        const userFound = await Data.findOne({ name: name, email: email ,course:trimmed_selectedCourse });
 
-      if (userFound) {
-          const pdfBytes = await generatePDF(capitalized_name, trimmed_selectedCourse, selectedDate);
+        if(userFound){
+            const pdfBytes = await generatePDF(capitalized_name, trimmed_selectedCourse, selectedDate);
+  
+            // Convert Uint8Array to Buffer
+            const pdfBuffer = Buffer.from(pdfBytes);
+        
+            // Set the response headers to trigger the download
+            res.setHeader('Content-Type', 'application/pdf');
+            res.setHeader('Content-Disposition', `attachment; filename=https://hogminds.com/${capitalized_name}.pdf`);
+        
+            // Send the PDF Buffer as the response
+            res.send(pdfBuffer);
+        }
 
-          // Convert Uint8Array to Buffer
-          const pdfBuffer = Buffer.from(pdfBytes);
-
-          // Set the response headers to trigger the download
-          res.setHeader('Content-Type', 'application/pdf');
-          res.setHeader('Content-Disposition', `attachment; filename=${capitalized_name}.pdf`);
-
-          // Send the PDF Buffer as the response
-          res.send(pdfBuffer);
-      } else {
-          // Send a response status indicating user not found
-          return res.status(404).send("User not found. Please provide valid information.");
-      }
-  } catch (err) {
-      console.error(err);
-      // Send a response status indicating error
-      res.status(500).send("Error generating certificate");
-  }
-});
+        else {
+          res.status(404).json({ error: "User not found. Please provide valid information." });
+        }
+      } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: "Error generating certificate" });
+      }});
   
 
 mongoose.connect('mongodb+srv://harsh31:harsh31@cluster0.5wf9evc.mongodb.net/?retryWrites=true&w=majority').then(() => {
