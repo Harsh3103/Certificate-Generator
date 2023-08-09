@@ -133,12 +133,23 @@ const generatePDF = async (name, selectedCourse, selectedDate) => {
         }
 
         else {
-          res.status(404).json({ error: "User not found. Please provide valid information." });
-        }
-      } catch (err) {
-        console.error(err);
-        res.status(500).json({ error: "Error generating certificate" });
-      }});
+          const alertScript = `
+    // <script>
+    //     alert("User not found. Please provide valid information.");
+    //     window.history.back();
+    // </script>
+`;
+// res.send(alertScript);
+
+      }
+      
+      
+      
+    } catch (err) {
+      console.error(err);
+      res.status(500).send("Error generating certificate");
+    }
+  });
   
 
 mongoose.connect('mongodb+srv://harsh31:harsh31@cluster0.5wf9evc.mongodb.net/?retryWrites=true&w=majority').then(() => {
