@@ -134,16 +134,8 @@ const generatePDF = async (name, selectedCourse, selectedDate) => {
 
         else {
           const errorMessage = `
-    <!DOCTYPE html>
-    <html>
-    <head>
-        <title>Error</title>
-    </head>
-    <body>
-        <h1>User not found. Please provide valid information.</h1>
-        <p>You can go back and try again.</p>
-    </body>
-    </html>
+          <script>
+          alert("Already Exists.");</script>
 `;
 res.send(errorMessage);
       }
