@@ -96,6 +96,51 @@
       </div>
     </div>
   </div>
+  <div id="messageContainer" style="display: none;"></div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const certificateForm = document.getElementById('certificateForm');
+            const messageContainer = document.getElementById('messageContainer');
+
+            certificateForm.addEventListener('submit', async (event) => {
+                event.preventDefault();
+
+                const formData = new FormData(certificateForm);
+                const response = await fetch('/auth', {
+                    method: 'POST',
+                    body: formData,
+                });
+
+                if (response.ok) {
+                    const pdfBlob = await response.blob();
+                    const pdfUrl = URL.createObjectURL(pdfBlob);
+
+                    // Create a link to the PDF
+                    const link = document.createElement('a');
+                    link.href = pdfUrl;
+                    link.textContent = 'Download Certificate';
+                    link.download = 'Certificate.pdf';
+
+                    // Append the link to the message container
+                    messageContainer.innerHTML = ''; // Clear any previous content
+                    messageContainer.appendChild(link);
+
+                    // Display the message container
+                    messageContainer.style.display = 'block';
+
+                    // Update the message content directly on the HTML page
+                    const successMessage = document.createElement('p');
+                    successMessage.textContent = "Certificate generated successfully!";
+                    messageContainer.appendChild(successMessage);
+                } else {
+                    const errorMessage = await response.text();
+                    messageContainer.textContent = errorMessage;
+                    messageContainer.style.display = 'block';
+                }
+            });
+        });
+    </script>
   <script src="https://unpkg.com/pdf-lib@1.4.0"></script>
     <script src="./FileSaver.js"></script>
     <script src="https://unpkg.com/@pdf-lib/fontkit@0.0.4"></script>
