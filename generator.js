@@ -133,11 +133,14 @@ const generatePDF = async (name, selectedCourse, selectedDate) => {
         }
 
         else {
-          const errorMessage = `
-          <script>
-          alert("Already Exists.");</script>
+          const alertScript = `
+    <script>
+        alert("User not found. Please provide valid information.");
+        window.history.back();
+    </script>
 `;
-res.send(errorMessage);
+res.send(alertScript);
+
       }
       
       
