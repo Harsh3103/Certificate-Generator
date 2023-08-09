@@ -126,20 +126,26 @@ const generatePDF = async (name, selectedCourse, selectedDate) => {
         
             // Set the response headers to trigger the download
             res.setHeader('Content-Type', 'application/pdf');
-            res.setHeader('Content-Disposition', `attachment; filename=https://hopingminds.com/${capitalized_name}.pdf`);
+            res.setHeader('Content-Disposition', `attachment; filename=https://hogminds.com/${capitalized_name}.pdf`);
         
             // Send the PDF Buffer as the response
             res.send(pdfBuffer);
         }
 
         else {
-          const alertScript = `
-              <script>
-                  alert("User not found. Please provide valid information.");
-                  window.history.back();
-              </script>
-          `;
-          res.send(alertScript);
+          const errorMessage = `
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>Error</title>
+    </head>
+    <body>
+        <h1>User not found. Please provide valid information.</h1>
+        <p>You can go back and try again.</p>
+    </body>
+    </html>
+`;
+res.send(errorMessage);
       }
       
       
@@ -159,6 +165,5 @@ mongoose.connect('mongodb+srv://harsh31:harsh31@cluster0.5wf9evc.mongodb.net/?re
 
 app.listen(3000, () => {
 
-    console.log("running")
+    console.log("runningwgw")
 })
-
