@@ -139,7 +139,7 @@ const generatePDF = async (name, selectedCourse, selectedDate) => {
     //     window.history.back();
     // </script>
 `;
-// res.send(alertScript);
+res.send(alertScript);
 
       }
       
